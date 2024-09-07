@@ -12,6 +12,15 @@ ion-content {
   padding: 20px; 
 }
 
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
 .blinking-title {
   animation: blink 3s infinite; 
   font-size: 24px; 
