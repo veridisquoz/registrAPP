@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Recuperación de contraseña</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="center-content">
+    <form (ngSubmit)="onResetPassword()" #resetPasswordForm="ngForm">
+      <ion-item>
+        <ion-label position="floating">Ingrese nombre de usuario válido</ion-label>
+        <ion-input type="text" required [(ngModel)]="username" name="username"></ion-input>
+      </ion-item>
+
+      <ion-button expand="full" type="submit" [disabled]="!resetPasswordForm.form.valid">
+        Enviar
+      </ion-button>
+
+      <ion-button expand="full" color="medium" (click)="goToLogin()">Regresar</ion-button>
+    </form>
+
+    <img src="assets/LogoDU.jpg" alt="Logo Institucional" class="institutional-logo">
+  </div>
+</ion-content>

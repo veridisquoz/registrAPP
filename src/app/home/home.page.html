@@ -1,20 +1,32 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="ion-padding">
+  <div class="center-content">
+    
+    <div class="blinking-title">Bienvenido, {{ username }}!</div>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    
+    <ion-button expand="full" class="menu-button">
+      <ion-icon slot="start" name="person-outline"></ion-icon>
+      Perfil
+    </ion-button>
+    
+    <ion-button expand="full" class="menu-button">
+      <ion-icon slot="start" name="clipboard-outline"></ion-icon>
+      Asistencia
+    </ion-button>
+    
+    <ion-button expand="full" class="menu-button">
+      <ion-icon slot="start" name="qr-code-outline"></ion-icon>
+      Escanear QR
+    </ion-button>
+    
+    <ion-button expand="full" class="menu-button">
+      <ion-icon slot="start" name="settings-outline"></ion-icon>
+      Configuración
+    </ion-button>
+    
+    <ion-button expand="full" color="danger" class="menu-button" (click)="logout()">
+      <ion-icon slot="start" name="log-out-outline"></ion-icon>
+      Salir
+    </ion-button>
   </div>
 </ion-content>

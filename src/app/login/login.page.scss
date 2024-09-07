@@ -1,0 +1,71 @@
+ion-button {
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+  
+    &:hover {
+      transform: scale(1.05);
+    }
+  
+    &:active {
+      transform: scale(0.95);
+      background-color: var(--ion-color-primary-shade);
+    }
+
+    --background: #003366; 
+    --background-activated: #002244; 
+    --color: #FFC700;
+  }
+
+  @keyframes blink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+  
+  .center-content {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+  }
+  
+  .blinking-title {
+    animation: blink 3s infinite; 
+    font-size: 24px; 
+    text-align: center; 
+    color: #FFC700 !important; 
+    background-color: #003366;
+  }
+  
+  .institutional-logo {
+    max-width: 300px; 
+    width: auto; 
+    margin: 0 auto; 
+    display: block; 
+  }
+
+  ion-footer {
+    padding-top: 80px; 
+    background-color: #ffffff; 
+  }
+
+  ion-content {
+    --background: #ffffff; 
+  }
+
+  ion-item {
+    --background: #003366; 
+    --border-color: transparent; 
+    border-radius: 8px; 
+    margin-bottom: 15px; 
+  }
+  
+  ion-input {
+    color: #FFC700; 
+  }
+
+  ion-item ion-label {
+    color: #FFC700 !important; 
+  }
