@@ -28,6 +28,7 @@ export class LoginPage {
       localStorage.setItem('isAuthenticated', 'true');
 
       
+      
       this.router.navigate(['/home'], { state: { username: usernameCapitalized } });
     } else {
       this.errorMessage = 'Usuario o Contraseña incorrectos';
