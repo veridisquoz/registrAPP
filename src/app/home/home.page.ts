@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { AuthService } from '../auth.service'; 
 
 @Component({
   selector: 'app-home',
@@ -9,18 +10,15 @@ import { AlertController } from '@ionic/angular';
 })
 export class HomePage {
   username: string = '';
-  isAuthenticated: boolean = false;
 
-  constructor(private router: Router, private alertController: AlertController) {
-    this.username = localStorage.getItem('username') || '';
-    this.isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+  constructor(private authService: AuthService, private router: Router, private alertController: AlertController) {
+    
+    this.username = this.authService.getUsername() || '';
 
-    if (!this.isAuthenticated) {
-      
-      this.router.navigate(['/login']);
+    if (!this.authService.isAuthenticated()) {
+      this.router.navigate(['/login']);  
     } else {
-      
-      this.presentWelcomeAlert();
+      this.presentWelcomeAlert(); 
     }
   }
 
@@ -35,9 +33,7 @@ export class HomePage {
   }
 
   logout() {
-    this.isAuthenticated = false;
-    localStorage.removeItem('username');
-    localStorage.removeItem('isAuthenticated');
-    this.router.navigate(['/login']);
+    this.authService.logout(); 
+    this.router.navigate(['/login']); 
   }
 }
