@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth.service'; 
 
 @Component({
   selector: 'app-login',
@@ -11,26 +12,21 @@ export class LoginPage {
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    const savedAuth = localStorage.getItem('isAuthenticated');
-    if (savedAuth === 'true') {
-      this.router.navigate(['/home']);
+    
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/home']);  
     }
   }
 
   onSubmit() {
-    if (this.username === 'donald' && this.password === 'trump123') {
-      
-      const usernameCapitalized = this.username.charAt(0).toUpperCase() + this.username.slice(1).toLowerCase();
-      localStorage.setItem('username', usernameCapitalized);
-      localStorage.setItem('isAuthenticated', 'true');
-
-      
-      this.router.navigate(['/home'], { state: { username: usernameCapitalized } });
+    
+    if (this.authService.login(this.username, this.password)) {
+      this.router.navigate(['/home']);  
     } else {
-      this.errorMessage = 'Usuario o Contraseña incorrectos';
+      this.errorMessage = 'Usuario o contraseña incorrectos'; 
     }
   }
 
