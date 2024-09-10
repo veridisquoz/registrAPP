@@ -31,14 +31,6 @@ ion-button {
     height: 100vh; 
   }
   
-  .blinking-title {
-    animation: blink 3s infinite; 
-    font-size: 24px; 
-    text-align: center; 
-    color: #FFC700 !important; 
-    background-color: #003366;
-  }
-  
   .institutional-logo {
     max-width: 300px; 
     width: auto; 
@@ -68,4 +60,12 @@ ion-button {
 
   ion-item ion-label {
     color: #FFC700 !important; 
+  }
+
+  .login-title {
+    text-align: center;
+    display: block;
+    font-size: 24px;
+    color: #FFC700 !important; 
+    background-color: #003366;
   }
