@@ -9,6 +9,10 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'qr-scanner',
+    loadChildren: () => import('./qr-scanner/qr-scanner.module').then( m => m.QrScannerPageModule)
+  },
+  {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
@@ -24,6 +28,11 @@ const routes: Routes = [
     path: 'restablecimiento',
     loadChildren: () => import('./restablecimiento/restablecimiento.module').then( m => m.RestablecimientoPageModule)
   },
+  {
+    path: 'qr-scanner',
+    loadChildren: () => import('./qr-scanner/qr-scanner.module').then( m => m.QrScannerPageModule)
+  },
+
 ];
 
 @NgModule({
