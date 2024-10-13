@@ -1,8 +1,5 @@
 <ion-header>
-  
-     <ion-title #loginTitle class="login-title">
-      Bienvenido a Duoc UC</ion-title>
-  
+  <ion-title class="login-title">Bienvenido a Duoc UC</ion-title>
 </ion-header>
 
 <ion-content class="ion-padding">
@@ -18,17 +15,15 @@
     </ion-item>
 
     <ion-button expand="full" type="submit" [disabled]="!loginForm.form.valid" class="blinking-button">
-
-     Ingresar</ion-button>
+      Ingresar
+    </ion-button>
 
     <ion-text color="danger" *ngIf="errorMessage">{{ errorMessage }}</ion-text>
   </form>
 
-    <ion-button expand="full" color="medium" (click)="goToResetPassword()" class="blinking-button">
+  <ion-button expand="full" color="medium" (click)="goToResetPassword()" class="blinking-button">
     Recuperar Contraseña
-    </ion-button>
-    
-        <img src="assets/LogoDU.jpg" alt="Logo Institucional" class="institutional-logo">
-      
-    
+  </ion-button>
+
+  <img src="assets/LogoDU.jpg" alt="Logo Institucional" class="institutional-logo" #logo>
 </ion-content>

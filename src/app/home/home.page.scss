@@ -21,17 +21,18 @@ ion-content {
   }
 }
 
-.blinking-title {
-  animation: blink 3s infinite; 
-  font-size: 24px; 
-  text-align: center; 
-  color: #FFC700; 
-  background-color: #003366; 
-  padding: 10px 20px; 
+.welcome-message {
+  background-color: #003366;
+  color: #FFC700;
+  padding: 12px; 
   border-radius: 8px; 
+  text-align: center; 
+  font-size: 18px; 
+  font-weight: bold; 
+  width: 100%; 
+  max-width: 300px; 
   margin-bottom: 20px; 
 }
-
 ion-button {
   --background: #003366; 
   --background-activated: #002244; 

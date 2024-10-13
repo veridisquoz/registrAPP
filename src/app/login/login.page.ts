@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service'; 
 import { AnimationController } from '@ionic/angular';
@@ -10,12 +10,13 @@ import { AnimationController } from '@ionic/angular';
 })
 export class LoginPage implements AfterViewInit {
 
-  @ViewChild('loginTitle', { read: ElementRef }) loginTitle!: ElementRef;
+  @ViewChild('logo', { read: ElementRef }) logo!: ElementRef;
+
   username: string = '';
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router, private animationCtrl: AnimationController) {}
+  constructor(private authService: AuthService, private router: Router, private animationCtrl: AnimationController, private el: ElementRef) {}
 
   ngOnInit() {
     if (this.authService.isAuthenticated()) {
@@ -24,21 +25,22 @@ export class LoginPage implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.blinkTitle();
+
+    this.blinkLogo();
   }
 
-  blinkTitle() {
+  blinkLogo() {
     const animation = this.animationCtrl
       .create()
-      .addElement(this.loginTitle.nativeElement) 
-      .duration(2000)  
-      .iterations(Infinity)  
+      .addElement(this.logo.nativeElement)
+      .duration(2000)
+      .iterations(Infinity)
       .keyframes([
         { offset: 0, opacity: '1' },
-        { offset: 0.5, opacity: '0.1' },
-        { offset: 1, opacity: '1' }
-      ]);  //
-    animation.play();  
+        { offset: 0.5, opacity: '0.3' },  
+        { offset: 1, opacity: '1' }    
+      ]);
+    animation.play();
   }
 
   onSubmit() {
