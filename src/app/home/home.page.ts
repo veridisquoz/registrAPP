@@ -2,6 +2,7 @@ import { Component, AfterViewInit, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, AnimationController } from '@ionic/angular';
 import { AuthService } from '../auth.service'; 
+import { WeatherService } from '../weather.service';
 
 @Component({
   selector: 'app-home',
@@ -10,17 +11,21 @@ import { AuthService } from '../auth.service';
 })
 export class HomePage implements AfterViewInit {
   username: string = '';
+  city: string = 'Santiago'; 
+  weatherData: any;
+  errorMessage: string = ''; 
+  loadingWeather: boolean = false; 
 
   constructor(
     private authService: AuthService, 
     private router: Router, 
     private alertController: AlertController,
     private animationCtrl: AnimationController, 
-    private el: ElementRef 
+    private el: ElementRef,
+    private weatherService: WeatherService 
   ) {}
 
   async ngOnInit() {
-    
     const isAuthenticated = await this.authService.isAuthenticated();
     if (!isAuthenticated) {
       this.router.navigate(['/login']);  
@@ -28,7 +33,31 @@ export class HomePage implements AfterViewInit {
     }
 
     this.username = await this.authService.getUsername() || '';
-    this.presentWelcomeAlert(); 
+    this.presentWelcomeAlert();
+    this.getWeather();
+  }
+
+  getWeather() {
+    
+    if (!this.city || this.city.trim() === '') {
+      this.errorMessage = 'Por favor, ingrese una ciudad válida.';
+      return;
+    }
+
+    this.loadingWeather = true;
+    this.errorMessage = '';
+
+    this.weatherService.getWeather(this.city).subscribe(
+      (data) => {
+        this.weatherData = data;
+        this.loadingWeather = false; 
+      },
+      (error) => {
+        console.error('Error al obtener los datos del clima', error);
+        this.errorMessage = 'Error al obtener los datos del clima.';
+        this.loadingWeather = false; 
+      }
+    );
   }
 
   ngAfterViewInit() {
