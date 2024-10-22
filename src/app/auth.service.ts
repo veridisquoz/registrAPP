@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage-angular';
 
 @Injectable({
   providedIn: 'root'
@@ -7,32 +8,39 @@ export class AuthService {
 
   private isAuthenticatedKey = 'isAuthenticated';
   private usernameKey = 'username';
+  private storageInstance: Storage | null = null;
 
-  constructor() {}
+  constructor(private storage: Storage) {
+    this.init(); 
+  }
 
-  login(username: string, password: string): boolean {
-    
+  async init() {
+    this.storageInstance = await this.storage.create();
+  }
+
+  async login(username: string, password: string): Promise<boolean> {
     if (username === 'donald' && password === 'trump123') {
       const usernameCapitalized = username.charAt(0).toUpperCase() + username.slice(1).toLowerCase();
-      localStorage.setItem(this.isAuthenticatedKey, 'true');
-      localStorage.setItem(this.usernameKey, usernameCapitalized);
-      return true;  
+      
+      // Guardar en Ionic Storage
+      await this.storageInstance?.set(this.isAuthenticatedKey, 'true');
+      await this.storageInstance?.set(this.usernameKey, usernameCapitalized);
+      return true;
     }
-      return false;  
+    return false;
   }
 
-  
-  logout(): void {
-    localStorage.removeItem(this.isAuthenticatedKey);
-    localStorage.removeItem(this.usernameKey);
+  async logout(): Promise<void> {
+    await this.storageInstance?.remove(this.isAuthenticatedKey);
+    await this.storageInstance?.remove(this.usernameKey);
   }
 
-  
-  isAuthenticated(): boolean {
-    return localStorage.getItem(this.isAuthenticatedKey) === 'true';
+  async isAuthenticated(): Promise<boolean> {
+    const authStatus = await this.storageInstance?.get(this.isAuthenticatedKey);
+    return authStatus === 'true';
   }
 
-  getUsername(): string | null {
-    return localStorage.getItem(this.usernameKey);
+  async getUsername(): Promise<string | null> {
+    return await this.storageInstance?.get(this.usernameKey);
   }
 }

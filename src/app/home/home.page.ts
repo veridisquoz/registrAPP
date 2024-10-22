@@ -15,20 +15,24 @@ export class HomePage implements AfterViewInit {
     private authService: AuthService, 
     private router: Router, 
     private alertController: AlertController,
-    private animationCtrl: AnimationController, // Inyectar el AnimationController
-    private el: ElementRef // ElementRef para acceder a los botones
-  ) {
-    this.username = this.authService.getUsername() || '';
+    private animationCtrl: AnimationController, 
+    private el: ElementRef 
+  ) {}
 
-    if (!this.authService.isAuthenticated()) {
+  async ngOnInit() {
+    
+    const isAuthenticated = await this.authService.isAuthenticated();
+    if (!isAuthenticated) {
       this.router.navigate(['/login']);  
-    } else {
-      this.presentWelcomeAlert(); 
+      return;
     }
+
+    this.username = await this.authService.getUsername() || '';
+    this.presentWelcomeAlert(); 
   }
 
   ngAfterViewInit() {
-    this.blinkButtons();  // Llamar a la animación de parpadeo en los botones
+    this.blinkButtons();
   }
 
   async presentWelcomeAlert() {
@@ -42,24 +46,26 @@ export class HomePage implements AfterViewInit {
   }
 
   blinkButtons() {
-    const buttons = this.el.nativeElement.querySelectorAll('.menu-button'); // Seleccionar los botones
+    const buttons = this.el.nativeElement.querySelectorAll('.menu-button');
     buttons.forEach((button: HTMLElement) => {
       const animation = this.animationCtrl
         .create()
         .addElement(button)
-        .duration(4000)  // Duración de 2 segundos
-        .iterations(Infinity)  // Animación infinita
+        .duration(4000)
+        .iterations(Infinity)
         .keyframes([
           { offset: 0, opacity: '1' },
-          { offset: 0.7, opacity: '0.5' },  // Atenuar, pero sin desaparecer
+          { offset: 0.7, opacity: '0.5' },
           { offset: 1, opacity: '1' }
         ]);
       animation.play();
     });
   }
 
-  logout() {
-    this.authService.logout(); 
-    this.router.navigate(['/login']); 
+  async logout() {
+    await this.authService.logout(); 
+    this.router.navigate(['/login']).then(() => {
+      window.location.reload();
+    });
   }
 }
