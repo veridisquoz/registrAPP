@@ -1,0 +1,30 @@
+ion-content {
+    --background: #ffffff;
+  }
+  
+  .center-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+  }
+
+  .sad-face {
+    width: 150px; 
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #333; 
+  }
+  
+  p {
+    font-size: 1.2rem;
+    color: #666; 
+    margin-bottom: 20px;
+  }

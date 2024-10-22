@@ -8,10 +8,13 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule),
     canActivate: [AuthGuard]
   },
+  
   {
     path: 'qr-scanner',
-    loadChildren: () => import('./qr-scanner/qr-scanner.module').then( m => m.QrScannerPageModule)
+    loadChildren: () => import('./qr-scanner/qr-scanner.module').then( m => m.QrScannerPageModule),
+    canActivate: [AuthGuard] 
   },
+  
   {
     path: '',
     redirectTo: 'login',
@@ -28,10 +31,10 @@ const routes: Routes = [
     path: 'restablecimiento',
     loadChildren: () => import('./restablecimiento/restablecimiento.module').then( m => m.RestablecimientoPageModule)
   },
-  {
-    path: 'qr-scanner',
-    loadChildren: () => import('./qr-scanner/qr-scanner.module').then( m => m.QrScannerPageModule)
-  },
+
+  { path: '404', loadChildren: () => import('./pag-no-enc/pag-no-enc.module').then(m => m.PagNoEncPageModule) },
+
+  { path: '**', redirectTo: '404' },
 
 ];
 
