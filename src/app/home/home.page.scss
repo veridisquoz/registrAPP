@@ -12,14 +12,14 @@ ion-content {
   padding: 20px; 
 }
 
-@keyframes blink {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-}
+  // @keyframes blink {
+  //   0%, 100% {
+  //     opacity: 1;
+  //   }
+  //   50% {
+  //     opacity: 0;
+  //   }
+  // }
 
 .welcome-message {
   background-color: #003366;

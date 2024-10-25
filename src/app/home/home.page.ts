@@ -61,7 +61,7 @@ export class HomePage implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.blinkButtons();
+    // this.blinkButtons();
   }
 
   async presentWelcomeAlert() {

@@ -38,7 +38,7 @@ export class LoginPage implements AfterViewInit {
 
   ngAfterViewInit() {
 
-    this.blinkLogo();
+    // this.blinkLogo();
   }
 
   blinkLogo() {
