@@ -32,9 +32,16 @@ const routes: Routes = [
     loadChildren: () => import('./restablecimiento/restablecimiento.module').then( m => m.RestablecimientoPageModule)
   },
 
+  {
+    path: 'perfil',
+    loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule)
+  },
+
   { path: '404', loadChildren: () => import('./pag-no-enc/pag-no-enc.module').then(m => m.PagNoEncPageModule) },
 
-  { path: '**', redirectTo: '404' },
+  { path: '**', redirectTo: '404' }
+  
+
 
 ];
 

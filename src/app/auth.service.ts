@@ -19,10 +19,9 @@ export class AuthService {
   }
 
   async login(username: string, password: string): Promise<boolean> {
-    if (username === 'donald' && password === 'trump123') {
+    if (username === 'pablo' && password === 'login123') {
       const usernameCapitalized = username.charAt(0).toUpperCase() + username.slice(1).toLowerCase();
       
-      // Guardar en Ionic Storage
       await this.storageInstance?.set(this.isAuthenticatedKey, 'true');
       await this.storageInstance?.set(this.usernameKey, usernameCapitalized);
       return true;
