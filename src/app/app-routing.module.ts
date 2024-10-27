@@ -37,11 +37,14 @@ const routes: Routes = [
     loadChildren: () => import('./perfil/perfil.module').then( m => m.PerfilPageModule)
   },
 
+  {
+    path: 'asistencia',
+    loadChildren: () => import('./asistencia/asistencia.module').then( m => m.AsistenciaPageModule)
+  },
+
   { path: '404', loadChildren: () => import('./pag-no-enc/pag-no-enc.module').then(m => m.PagNoEncPageModule) },
 
-  { path: '**', redirectTo: '404' }
-  
-
+  { path: '**', redirectTo: '404' },
 
 ];
 

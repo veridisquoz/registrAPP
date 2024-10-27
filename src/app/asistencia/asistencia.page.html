@@ -1,0 +1,41 @@
+<ion-content class="ion-padding">
+
+  <form (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="floating">Nombre del Estudiante</ion-label>
+      <ion-input [(ngModel)]="studentName" name="studentName" required readonly></ion-input>
+    </ion-item>
+
+    <ion-item>
+      
+      <ion-select [(ngModel)]="subject" name="subject" placeholder="Seleccionar Asignatura" required>
+        <ion-select-option *ngFor="let subj of subjects" [value]="subj">{{ subj }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+  </form>
+
+  
+  <ion-list *ngIf="attendanceRecords.length > 0">
+    <ion-item *ngFor="let record of attendanceRecords">
+      <ion-label>
+        {{ record.studentName }} - {{ record.subject }}: 
+        <strong>{{ record.attendance ? 'Presente' : 'Ausente' }}</strong>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  
+  <ion-text *ngIf="attendanceRecords.length === 0" color="medium">
+    No hay registros de asistencia.
+  </ion-text>
+
+ 
+  <ion-button expand="full" (click)="goToHome()" class="menu-button">
+    <ion-icon slot="start" name="home-outline"></ion-icon>
+    Volver al Inicio
+  </ion-button>
+
+  <img src="assets/LogoDU.jpg" alt="Logo Institucional" class="institutional-logo" />
+
+</ion-content>
