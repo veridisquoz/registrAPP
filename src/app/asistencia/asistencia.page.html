@@ -1,41 +1,42 @@
 <ion-content class="ion-padding">
-
-  <form (ngSubmit)="onSubmit()">
-    <ion-item>
-      <ion-label position="floating">Nombre del Estudiante</ion-label>
-      <ion-input [(ngModel)]="studentName" name="studentName" required readonly></ion-input>
-    </ion-item>
-
-    <ion-item>
-      
-      <ion-select [(ngModel)]="subject" name="subject" placeholder="Seleccionar Asignatura" required>
-        <ion-select-option *ngFor="let subj of subjects" [value]="subj">{{ subj }}</ion-select-option>
-      </ion-select>
-    </ion-item>
-
-  </form>
-
-  
   <ion-list *ngIf="attendanceRecords.length > 0">
-    <ion-item *ngFor="let record of attendanceRecords">
-      <ion-label>
-        {{ record.studentName }} - {{ record.subject }}: 
-        <strong>{{ record.attendance ? 'Presente' : 'Ausente' }}</strong>
-      </ion-label>
-    </ion-item>
+    <ion-accordion-group>
+      <ion-accordion *ngFor="let subjectRecord of groupedAttendanceRecords">
+        <ion-item slot="header">
+          <ion-label>{{ subjectRecord.subject }}</ion-label>
+        </ion-item>
+        
+        <div slot="content">
+          <ion-grid>
+            <ion-row class="header-row">
+              <ion-col><strong>Sección</strong></ion-col>
+              <ion-col><strong>Sala</strong></ion-col>
+              <ion-col><strong>Fecha</strong></ion-col>
+              <ion-col><strong>Asistencia</strong></ion-col>
+            </ion-row>
+            <ion-row *ngFor="let record of subjectRecord.records">
+              <ion-col>{{ record.section }}</ion-col>
+              <ion-col>{{ record.room }}</ion-col>
+              <ion-col>{{ record.date }}</ion-col>
+              <ion-col>{{ record.attendance ? 'Presente' : 'Ausente' }}</ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
   </ion-list>
 
-  
   <ion-text *ngIf="attendanceRecords.length === 0" color="medium">
-    No hay registros de asistencia.
+    <p>No hay registros de asistencia.</p>
   </ion-text>
 
- 
-  <ion-button expand="full" (click)="goToHome()" class="menu-button">
+  <ion-text color="danger" *ngIf="errorMessage">
+    <p>{{ errorMessage }}</p>
+  </ion-text>
+
+  <!-- Botón para volver al home -->
+  <ion-button expand="full" color="primary" (click)="goToHome()" class="volver-button">
     <ion-icon slot="start" name="home-outline"></ion-icon>
     Volver al Inicio
   </ion-button>
-
-  <img src="assets/LogoDU.jpg" alt="Logo Institucional" class="institutional-logo" />
-
 </ion-content>

@@ -9,8 +9,7 @@ import { ChangeDetectorRef } from '@angular/core';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements AfterViewInit {
-
+export class LoginPage {
   @ViewChild('logo', { read: ElementRef }) logo!: ElementRef;
 
   username: string = '';
@@ -26,7 +25,6 @@ export class LoginPage implements AfterViewInit {
   ) {}
 
   async ngOnInit() {
-
     await this.clearFields();
     this.cdr.detectChanges();
 
@@ -34,25 +32,6 @@ export class LoginPage implements AfterViewInit {
     if (isAuthenticated) {
       this.router.navigate(['/home']);  
     }
-  }
-
-  ngAfterViewInit() {
-
-    // this.blinkLogo();
-  }
-
-  blinkLogo() {
-    const animation = this.animationCtrl
-      .create()
-      .addElement(this.logo.nativeElement)
-      .duration(2000)
-      .iterations(Infinity)
-      .keyframes([
-        { offset: 0, opacity: '1' },
-        { offset: 0.5, opacity: '0.3' },  
-        { offset: 1, opacity: '1' }    
-      ]);
-    animation.play();
   }
 
   async onSubmit() {
@@ -67,6 +46,7 @@ export class LoginPage implements AfterViewInit {
   async clearFields() {
     this.username = '';
     this.password = '';
+    this.errorMessage = ''; 
     this.cdr.detectChanges();
   }
 

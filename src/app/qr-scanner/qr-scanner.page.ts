@@ -1,6 +1,8 @@
 import { Component, OnDestroy, ViewChild, ElementRef } from '@angular/core';
-import { BrowserMultiFormatReader } from '@zxing/browser';
+import { AttendanceService } from '../attendance.service';
+import { AuthService } from '../auth.service';
 import { AlertController } from '@ionic/angular';
+import { BrowserMultiFormatReader } from '@zxing/browser';
 
 @Component({
   selector: 'app-qr-scanner',
@@ -9,55 +11,74 @@ import { AlertController } from '@ionic/angular';
 })
 export class QrScannerPage implements OnDestroy {
   @ViewChild('video', { static: false }) video!: ElementRef<HTMLVideoElement>;
-  scannedData: string = '';
   private codeReader: BrowserMultiFormatReader;
-  private scanning: boolean = false; // Controla el estado de escaneo
+  scannedData: string = '';
+  scanning: boolean = false;
 
-  constructor(private alertController: AlertController) {
+  constructor(
+    private attendanceService: AttendanceService,
+    private authService: AuthService,
+    private alertController: AlertController
+  ) {
     this.codeReader = new BrowserMultiFormatReader();
   }
 
-  // Inicia el escaneo cuando la vista esté activa
   ionViewWillEnter() {
-    this.startScan(); // Inicia el escaneo automáticamente al entrar en la página
+    this.startScan();
   }
 
   async startScan() {
-    this.scanning = true; // Inicia el escaneo
-    this.codeReader
-      .decodeFromVideoDevice(undefined, this.video.nativeElement, (result, err) => {
-        if (result && this.scanning) {
-          this.scannedData = result.getText();
-          this.scanning = false; // Detiene el procesamiento de más resultados
-          this.showAlert('Escaneado correctamente', `Resultado: ${this.scannedData}`);
-          this.stopScan(); // Detener el escaneo una vez se haya escaneado un código
-        }
-        if (err && !(err instanceof Error)) {
-          console.error(err);
-        }
-      })
-      .catch((err) => {
-        console.error('Error en el escaneo: ', err);
-        this.showAlert('Error', 'No se pudo iniciar el escaneo.');
-      });
+    this.scanning = true;
+    this.codeReader.decodeFromVideoDevice(undefined, this.video.nativeElement, async (result, err) => {
+      if (result && this.scanning) {
+        this.scannedData = result.getText();
+        this.scanning = false;
+        await this.processQrData(this.scannedData);
+        this.stopScan();
+      }
+      if (err && !(err instanceof Error)) {
+        console.error(err);
+      }
+    });
   }
 
   stopScan() {
-    this.scanning = false; // Asegura que el escaneo se detenga
-    // Detenemos el acceso a la cámara
-    const videoElement = this.video.nativeElement;
-    const stream = videoElement.srcObject as MediaStream;
-  
-    if (stream) {
-      const tracks = stream.getTracks(); // Obtiene todas las pistas de video (stream de la cámara)
-      tracks.forEach(track => track.stop()); // Detiene cada una de las pistas
-      videoElement.srcObject = null; // Limpia el objeto de video
-    }
+    this.scanning = false;
+    const stream = this.video.nativeElement.srcObject as MediaStream;
+    stream?.getTracks().forEach(track => track.stop());
+    this.video.nativeElement.srcObject = null;
   }
 
-  ngOnDestroy() {
-    this.stopScan(); // Asegura que la cámara se libere cuando salgas de la página
-  }
+  async processQrData(data: string) {
+    const [subject, section, room, date] = data.split('|');
+    const username = await this.authService.getUsername();
+ 
+    if (!username || !subject || !section || !room || !date) {
+      this.showAlert('Error', 'Formato de QR inválido');
+      return;
+    }
+ 
+    const attendanceData = {
+      username,
+      subject,
+      section,
+      room,
+      date,
+    };
+ 
+    this.attendanceService.registerAttendance(attendanceData).subscribe(
+      async () => {
+        await this.showAlert('Asistencia', 'Asistencia registrada correctamente');
+      },
+      async (error) => {
+        if (error.status === 409) {
+          await this.showAlert('Asistencia', 'Su asistencia ya ha sido registrada');
+        } else {
+          await this.showAlert('Error', 'Error al registrar la asistencia');
+        }
+      }
+    );
+  } 
 
   async showAlert(header: string, message: string) {
     const alert = await this.alertController.create({
@@ -66,5 +87,9 @@ export class QrScannerPage implements OnDestroy {
       buttons: ['OK'],
     });
     await alert.present();
+  }
+
+  ngOnDestroy() {
+    this.stopScan();
   }
 }

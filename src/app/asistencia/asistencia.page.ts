@@ -1,44 +1,63 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { AttendanceService } from '../attendance.service';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-asistencia',
   templateUrl: './asistencia.page.html',
   styleUrls: ['./asistencia.page.scss'],
 })
-export class AsistenciaPage {
-  studentName: string = '';
-  subject: string = '';
-  attendance: boolean = false;
-  attendanceRecords: { studentName: string, subject: string, attendance: boolean }[] = [];
+export class AsistenciaPage implements OnInit {
+  attendanceRecords: any[] = [];
+  groupedAttendanceRecords: any[] = [];
+  errorMessage: string = '';
 
-  subjects: string[] = ['PROGRAMACION DE APLICACIONES MOVILES', 'CALIDAD DE SOFTWARE', 'ARQUITECTURA', 'ESTADISTICA DESCRIPTIVA', 'INGLES'];
-
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private attendanceService: AttendanceService,
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   async ngOnInit() {
-    this.studentName = await this.authService.getUsername() || 'Usuario Desconocido';
+    const username = await this.authService.getUsername();
+    console.log('Nombre de usuario obtenido:', username); // Verifica el valor aquí
+    if (username) {
+      this.loadAttendance(username);
+    } else {
+      this.errorMessage = 'Error: No se pudo obtener el nombre de usuario.';
+    }
+  }
+  
+
+  loadAttendance(username: string) {
+    this.attendanceService.getAttendanceRecords(username).subscribe(
+      (data) => {
+        console.log('Datos de asistencia:', data); // Verificar los datos aquí
+        this.attendanceRecords = data;
+        this.groupAttendanceBySubject();
+      },
+      (error) => {
+        console.error('Error al cargar registros de asistencia', error);
+        this.errorMessage = 'Error al cargar registros de asistencia';
+      }
+    );
+  }  
+
+  groupAttendanceBySubject() {
+    const grouped = this.attendanceRecords.reduce((acc, record) => {
+      const subject = record.subject;
+      if (!acc[subject]) {
+        acc[subject] = { subject, records: [] };
+      }
+      acc[subject].records.push(record);
+      return acc;
+    }, {});
+
+    this.groupedAttendanceRecords = Object.values(grouped);
   }
 
-  onSubmit() {
-    const newRecord = {
-      studentName: this.studentName,
-      subject: this.subject,
-      attendance: this.attendance
-    };
-
-    this.attendanceRecords.push(newRecord);
-
-    this.clearFields();
-  }
-
-  clearFields() {
-    this.studentName = '';
-    this.subject = '';
-    this.attendance = false;
-  }
-
+  // Método para volver al home
   goToHome() {
     this.router.navigate(['/home']);
   }

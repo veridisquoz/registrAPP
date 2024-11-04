@@ -1,0 +1,58 @@
+[
+  {
+    "username": "lui.illanes",
+    "subject": "PROGRAMACION DE APLICACIONES MOVILES",
+    "section": "PGY4121",
+    "room": "101",
+    "date": "2024-11-04",
+    "attendance": true
+  },
+  {
+    "username": "lui.illanes",
+    "subject": "CALIDAD DE SOFTWARE",
+    "section": "PGY4121",
+    "room": "101",
+    "date": "2024-11-04",
+    "attendance": true
+  },
+  {
+    "username": "sofialopez",
+    "subject": "INGENIERÍA DE SOFTWARE",
+    "section": "PGY4121",
+    "room": "101",
+    "date": "2024-11-04",
+    "attendance": false
+  },
+  {
+    "username": "lui.illanes",
+    "subject": "PROGRAMACION DE APLICACIONES MOVILES",
+    "section": "PGY4121",
+    "room": "101",
+    "date": "2024-11-07",
+    "attendance": true
+  },
+  {
+    "username": "lui.illanes",
+    "subject": "ESTADISTICA DESCRIPTIVA",
+    "section": "ED100 ",
+    "room": "C101",
+    "date": "2024-11-04",
+    "attendance": true
+  },
+  {
+    "username": "lui.illanes",
+    "subject": "ARQUITECTURA DE SOFTWARE ",
+    "section": "ASW301 ",
+    "room": "B203",
+    "date": "2024-11-04",
+    "attendance": true
+  },
+  {
+    "username": "lui.illanes",
+    "subject": "ARQUITECTURA DE SOFTWARE ",
+    "section": "ASW301 ",
+    "room": "B203",
+    "date": "2024-11-07",
+    "attendance": true
+  }
+]

@@ -38,7 +38,6 @@ export class HomePage implements AfterViewInit {
   }
 
   getWeather() {
-    
     if (!this.city || this.city.trim() === '') {
       this.errorMessage = 'Por favor, ingrese una ciudad válida.';
       return;
@@ -94,7 +93,7 @@ export class HomePage implements AfterViewInit {
   async logout() {
     await this.authService.logout(); 
     this.router.navigate(['/login']).then(() => {
-      window.location.reload();
+      window.location.reload(); // Recarga la aplicación para limpiar el estado
     });
   }
 }

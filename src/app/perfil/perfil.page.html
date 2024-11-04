@@ -1,6 +1,6 @@
 <ion-content class="ion-padding">
   <div class="perfil-container">
-    
+
     <div class="avatar-container">
       <ion-avatar class="avatar">
         <img src="assets/avatarduoc.png" alt="Avatar del usuario">
@@ -8,11 +8,11 @@
     </div>
 
     <div class="user-info">
-      <h2>{{ username }}</h2>
-      <p><strong>Nombre:</strong> Pablo Ramirez Soto</p>
-      <p><strong>ID del Estudiante:</strong> 18756023-7</p>
-      <p><strong>Carrera:</strong> Analista Programador</p>
-      <p><strong>Email:</strong> {{ email }}</p>
+      <h2>{{ user?.username }}</h2>
+      <p><strong>Nombre:</strong> {{ user?.nombre }}</p>
+      <p><strong>ID del Estudiante:</strong> {{ user?.idEstudiante }}</p>
+      <p><strong>Carrera:</strong> {{ user?.carrera }}</p>
+      <p><strong>Email:</strong> {{ user?.email }}</p>
     </div>
 
     <ion-button expand="full" class="volver-button" routerLink="/home">

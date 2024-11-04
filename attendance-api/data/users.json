@@ -1,0 +1,19 @@
+[
+    {
+      "username": "lui.illanes",
+      "nombre": "Luis Illanes Lagos",
+      "idEstudiante": "19846866-5",
+      "carrera": "Analista Programador",
+      "email": "lui.illanes@duocuc.cl",
+      "password": "contrasena123"
+    },
+    {
+      "username": "sofialopez",
+      "nombre": "Sofia Lopez Fernandez",
+      "idEstudiante": "19483021-5",
+      "carrera": "Ingeniería de Software",
+      "email": "sofia.lopez@example.com",
+      "password": "contrasena456"
+    }
+  ]
+  

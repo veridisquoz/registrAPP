@@ -1,0 +1,21 @@
+[
+    {
+      "username": "lui.illanes",
+      "subject": "PROGRAMACION DE APLICACIONES MOVILES",
+      "date": "2024-11-04",
+      "attendance": true
+    },
+    {
+      "username": "lui.illanes",
+      "subject": "CALIDAD DE SOFTWARE",
+      "date": "2024-11-04",
+      "attendance": true
+    },
+    {
+      "username": "sofialopez",
+      "subject": "INGENIERÍA DE SOFTWARE",
+      "date": "2024-11-04",
+      "attendance": false
+    }
+  ]
+  

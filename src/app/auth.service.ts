@@ -1,45 +1,47 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage-angular';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private apiUrl = 'http://localhost:3000';
+  private currentUser: any = null;
+  private isLoggedIn = false;
 
-  private isAuthenticatedKey = 'isAuthenticated';
-  private usernameKey = 'username';
-  private storageInstance: Storage | null = null;
+  constructor(private http: HttpClient) {}
 
-  constructor(private storage: Storage) {
-    this.init(); 
-  }
-
-  async init() {
-    this.storageInstance = await this.storage.create();
-  }
-
+  // Método para iniciar sesión
   async login(username: string, password: string): Promise<boolean> {
-    if (username === 'pablo' && password === 'login123') {
-      const usernameCapitalized = username.charAt(0).toUpperCase() + username.slice(1).toLowerCase();
-      
-      await this.storageInstance?.set(this.isAuthenticatedKey, 'true');
-      await this.storageInstance?.set(this.usernameKey, usernameCapitalized);
+    try {
+      const response = await this.http.post<any>(`${this.apiUrl}/login`, { username, password }).toPromise();
+      this.currentUser = response.user;
+      this.isLoggedIn = true;
       return true;
+    } catch (error) {
+      console.error('Error en el login:', error);
+      return false;
     }
-    return false;
   }
 
-  async logout(): Promise<void> {
-    await this.storageInstance?.remove(this.isAuthenticatedKey);
-    await this.storageInstance?.remove(this.usernameKey);
-  }
-
+  // Método para verificar si el usuario está autenticado
   async isAuthenticated(): Promise<boolean> {
-    const authStatus = await this.storageInstance?.get(this.isAuthenticatedKey);
-    return authStatus === 'true';
+    return this.isLoggedIn;
   }
 
+  // Método para obtener el nombre de usuario
   async getUsername(): Promise<string | null> {
-    return await this.storageInstance?.get(this.usernameKey);
+    return this.currentUser ? this.currentUser.username : null;
+  }
+
+  // Método para obtener el perfil de usuario
+  getUserProfile(): any {
+    return this.currentUser;
+  }
+
+  // Método de cierre de sesión
+  async logout(): Promise<void> {
+    this.currentUser = null;
+    this.isLoggedIn = false;
   }
 }
