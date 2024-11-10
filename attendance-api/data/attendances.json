@@ -54,21 +54,5 @@
     "room": "B203",
     "date": "2024-11-07",
     "attendance": true
-  },
-  {
-    "username": "lui.illanes",
-    "subject": "INGLES TECNICO",
-    "section": "IT101 ",
-    "room": "D104",
-    "date": "2024-11-04",
-    "attendance": true
-  },
-  {
-    "username": "lui.illanes",
-    "subject": "INGLES TECNICO",
-    "section": "IT101 ",
-    "room": "D104",
-    "date": "2024-11-05",
-    "attendance": true
   }
 ]
