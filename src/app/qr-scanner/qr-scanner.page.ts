@@ -3,6 +3,8 @@ import { AttendanceService } from '../attendance.service';
 import { AuthService } from '../auth.service';
 import { AlertController } from '@ionic/angular';
 import { BrowserMultiFormatReader } from '@zxing/browser';
+import IAttendance from 'src/app/interfaces/attendances.interfaces';
+
 
 @Component({
   selector: 'app-qr-scanner',
@@ -58,27 +60,26 @@ export class QrScannerPage implements OnDestroy {
       return;
     }
  
-    const attendanceData = {
+    const attendanceData: IAttendance = {
       username,
       subject,
       section,
       room,
       date,
+      attendance: true
     };
  
-    this.attendanceService.registerAttendance(attendanceData).subscribe(
-      async () => {
-        await this.showAlert('Asistencia', 'Asistencia registrada correctamente');
-      },
-      async (error) => {
-        if (error.status === 409) {
-          await this.showAlert('Asistencia', 'Su asistencia ya ha sido registrada');
-        } else {
-          await this.showAlert('Error', 'Error al registrar la asistencia');
-        }
+    try {
+      await this.attendanceService.registrarAttendance(attendanceData);
+      await this.showAlert('Asistencia', 'Asistencia registrada correctamente');
+    } catch (error) {
+      if ((error as any).status === 409) {
+        await this.showAlert('Asistencia', 'Su asistencia ya ha sido registrada');
+      } else {
+        await this.showAlert('Error', 'Error al registrar la asistencia');
       }
-    );
-  } 
+    }
+  }
 
   async showAlert(header: string, message: string) {
     const alert = await this.alertController.create({

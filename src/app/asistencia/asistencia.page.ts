@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AttendanceService } from '../attendance.service';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import IAttendance from 'src/app/interfaces/attendances.interfaces';
 
 @Component({
   selector: 'app-asistencia',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./asistencia.page.scss'],
 })
 export class AsistenciaPage implements OnInit {
-  attendanceRecords: any[] = [];
+  attendanceRecords: IAttendance[] = [];
   groupedAttendanceRecords: any[] = [];
   errorMessage: string = '';
 
@@ -17,32 +18,29 @@ export class AsistenciaPage implements OnInit {
     private attendanceService: AttendanceService,
     private authService: AuthService,
     private router: Router
-  ) { }
+  ) {}
 
   async ngOnInit() {
     const username = await this.authService.getUsername();
-    console.log('Nombre de usuario obtenido:', username); // Verifica el valor aquí
+    console.log('Nombre de usuario obtenido:', username);
     if (username) {
       this.loadAttendance(username);
     } else {
       this.errorMessage = 'Error: No se pudo obtener el nombre de usuario.';
     }
   }
-  
 
-  loadAttendance(username: string) {
-    this.attendanceService.getAttendanceRecords(username).subscribe(
-      (data) => {
-        console.log('Datos de asistencia:', data); // Verificar los datos aquí
-        this.attendanceRecords = data;
-        this.groupAttendanceBySubject();
-      },
-      (error) => {
-        console.error('Error al cargar registros de asistencia', error);
-        this.errorMessage = 'Error al cargar registros de asistencia';
-      }
-    );
-  }  
+  async loadAttendance(username: string) {
+    try {
+      const data = await this.attendanceService.obtenerAttendanceRecords(username);
+      console.log('Datos de asistencia:', data);
+      this.attendanceRecords = data;
+      this.groupAttendanceBySubject();
+    } catch (error) {
+      console.error('Error al cargar registros de asistencia', error);
+      this.errorMessage = 'Error al cargar registros de asistencia';
+    }
+  }
 
   groupAttendanceBySubject() {
     const grouped = this.attendanceRecords.reduce((acc, record) => {
@@ -52,12 +50,11 @@ export class AsistenciaPage implements OnInit {
       }
       acc[subject].records.push(record);
       return acc;
-    }, {});
+    }, {} as { [key: string]: { subject: string; records: IAttendance[] } });
 
     this.groupedAttendanceRecords = Object.values(grouped);
   }
 
-  // Método para volver al home
   goToHome() {
     this.router.navigate(['/home']);
   }
