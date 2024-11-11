@@ -1,21 +1,33 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Firestore, collection, addDoc, query, where, getDocs, CollectionReference } from '@angular/fire/firestore';
+import IAttendance from 'src/app/interfaces/attendances.interfaces';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AttendanceService {
-  private apiUrl = 'http://localhost:3000';
+  private attendanceCollection: CollectionReference;
 
-  constructor(private http: HttpClient) {}
-
-  // Método para registrar la asistencia
-  registerAttendance(attendanceData: any) {
-    return this.http.post(`${this.apiUrl}/attendance`, attendanceData);
+  constructor(private firestore: Firestore) {
+    this.attendanceCollection = collection(this.firestore, 'attendance');
   }
 
-  // Método para obtener los registros de asistencia de un usuario
-  getAttendanceRecords(username: string) {
-    return this.http.get<any[]>(`${this.apiUrl}/attendance/${username}`);
+  // Método para registrar la asistencia en Firestore
+  async registrarAttendance(attendanceData: IAttendance): Promise<void> {
+    try {
+      await addDoc(this.attendanceCollection, attendanceData);
+      console.log('Asistencia registrada correctamente');
+    } catch (error) {
+      console.error('Error al registrar asistencia:', error);
+      throw error;
+    }
+  }
+
+  // Método para obtener los registros de asistencia de un usuario desde Firestore
+  async obtenerAttendanceRecords(username: string): Promise<IAttendance[]> {
+    const q = query(this.attendanceCollection, where('username', '==', username));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => doc.data() as IAttendance);
   }
 }
