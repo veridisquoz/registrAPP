@@ -11,10 +11,9 @@ import { WeatherService } from '../weather.service';
 })
 export class HomePage implements AfterViewInit {
   username: string = '';
-  city: string = 'Santiago'; 
   weatherData: any;
-  errorMessage: string = ''; 
-  loadingWeather: boolean = false; 
+  errorMessage: string = '';
+  loadingWeather: boolean = false;
 
   constructor(
     private authService: AuthService, 
@@ -34,19 +33,32 @@ export class HomePage implements AfterViewInit {
 
     this.username = await this.authService.getUsername() || '';
     this.presentWelcomeAlert();
-    this.getWeather();
+    this.getLocationAndWeather();
   }
 
-  getWeather() {
-    if (!this.city || this.city.trim() === '') {
-      this.errorMessage = 'Por favor, ingrese una ciudad válida.';
-      return;
+  getLocationAndWeather() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+          this.getWeather(lat, lon);
+        },
+        error => {
+          this.errorMessage = 'No se pudo obtener la ubicación';
+          console.error(error);
+        }
+      );
+    } else {
+      this.errorMessage = 'La geolocalización no está soportada por el navegador';
     }
+  }
 
+  getWeather(lat: number, lon: number) {
     this.loadingWeather = true;
     this.errorMessage = '';
 
-    this.weatherService.getWeather(this.city).subscribe(
+    this.weatherService.getWeatherByCoordinates(lat, lon).subscribe(
       (data) => {
         this.weatherData = data;
         this.loadingWeather = false; 
@@ -93,7 +105,7 @@ export class HomePage implements AfterViewInit {
   async logout() {
     await this.authService.logout(); 
     this.router.navigate(['/login']).then(() => {
-      window.location.reload(); // Recarga la aplicación para limpiar el estado
+      window.location.reload();
     });
   }
 }

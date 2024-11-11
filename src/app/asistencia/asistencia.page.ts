@@ -21,7 +21,7 @@ export class AsistenciaPage implements OnInit {
 
   async ngOnInit() {
     const username = await this.authService.getUsername();
-    console.log('Nombre de usuario obtenido:', username); // Verifica el valor aquí
+    console.log('Nombre de usuario obtenido:', username);
     if (username) {
       this.loadAttendance(username);
     } else {
@@ -33,7 +33,7 @@ export class AsistenciaPage implements OnInit {
   loadAttendance(username: string) {
     this.attendanceService.getAttendanceRecords(username).subscribe(
       (data) => {
-        console.log('Datos de asistencia:', data); // Verificar los datos aquí
+        console.log('Datos de asistencia:', data); 
         this.attendanceRecords = data;
         this.groupAttendanceBySubject();
       },
@@ -57,7 +57,6 @@ export class AsistenciaPage implements OnInit {
     this.groupedAttendanceRecords = Object.values(grouped);
   }
 
-  // Método para volver al home
   goToHome() {
     this.router.navigate(['/home']);
   }
