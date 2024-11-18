@@ -3,13 +3,15 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth.service'; 
 import { AnimationController } from '@ionic/angular';
 import { ChangeDetectorRef } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage {
+export class LoginPage implements AfterViewInit {
+
   @ViewChild('logo', { read: ElementRef }) logo!: ElementRef;
 
   username: string = '';
@@ -21,10 +23,31 @@ export class LoginPage {
     private router: Router, 
     private animationCtrl: AnimationController, 
     private el: ElementRef,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private loadingController: LoadingController
   ) {}
 
+  async onSubmit() {
+    
+    const loading = await this.loadingController.create({
+      message: 'Iniciando sesión...',
+      spinner: 'crescent', 
+    });
+    await loading.present();
+
+    const success = await this.authService.login(this.username, this.password);
+
+    await loading.dismiss();
+
+    if (success) {
+      this.router.navigate(['/home']);
+    } else {
+      this.errorMessage = 'Usuario o contraseña incorrectos'; 
+    }
+  }
+
   async ngOnInit() {
+
     await this.clearFields();
     this.cdr.detectChanges();
 
@@ -34,19 +57,31 @@ export class LoginPage {
     }
   }
 
-  async onSubmit() {
-    const success = await this.authService.login(this.username, this.password);
-    if (success) {
-      this.router.navigate(['/home']);  
-    } else {
-      this.errorMessage = 'Usuario o contraseña incorrectos'; 
-    }
+  ngAfterViewInit() {
+
+    // this.blinkLogo();
   }
+
+  blinkLogo() {
+    const animation = this.animationCtrl
+      .create()
+      .addElement(this.logo.nativeElement)
+      .duration(2000)
+      .iterations(Infinity)
+      .keyframes([
+        { offset: 0, opacity: '1' },
+        { offset: 0.5, opacity: '0.3' },  
+        { offset: 1, opacity: '1' }    
+      ]);
+    animation.play();
+  }
+
+  
+  
 
   async clearFields() {
     this.username = '';
     this.password = '';
-    this.errorMessage = ''; 
     this.cdr.detectChanges();
   }
 

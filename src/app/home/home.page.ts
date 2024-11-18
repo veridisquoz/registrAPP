@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController, AnimationController } from '@ionic/angular';
 import { AuthService } from '../auth.service'; 
 import { WeatherService } from '../weather.service';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -11,9 +12,10 @@ import { WeatherService } from '../weather.service';
 })
 export class HomePage implements AfterViewInit {
   username: string = '';
+  city: string = 'Ubicación actual';  
   weatherData: any;
-  errorMessage: string = '';
-  loadingWeather: boolean = false;
+  errorMessage: string = ''; 
+  loadingWeather: boolean = false; 
 
   constructor(
     private authService: AuthService, 
@@ -21,8 +23,24 @@ export class HomePage implements AfterViewInit {
     private alertController: AlertController,
     private animationCtrl: AnimationController, 
     private el: ElementRef,
-    private weatherService: WeatherService 
+    private weatherService: WeatherService,
+    private loadingController: LoadingController 
   ) {}
+
+  async navigateWithLoading(url: string) {
+    const loading = await this.loadingController.create({
+      message: 'Cargando...',
+      spinner: 'crescent'
+    });
+    await loading.present();
+
+    this.router.navigateByUrl(url).then(() => {
+      loading.dismiss();
+    }).catch(() => {
+      loading.dismiss();
+    });
+  }
+
 
   async ngOnInit() {
     const isAuthenticated = await this.authService.isAuthenticated();
@@ -33,43 +51,65 @@ export class HomePage implements AfterViewInit {
 
     this.username = await this.authService.getUsername() || '';
     this.presentWelcomeAlert();
-    this.getLocationAndWeather();
+    this.getWeatherWithLocation();
   }
 
-  getLocationAndWeather() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
-          this.getWeather(lat, lon);
-        },
-        error => {
-          this.errorMessage = 'No se pudo obtener la ubicación';
-          console.error(error);
-        }
-      );
-    } else {
-      this.errorMessage = 'La geolocalización no está soportada por el navegador';
+  async getWeatherWithLocation() {
+    const loading = await this.loadingController.create({
+      message: 'Obteniendo ubicación y clima...',
+      spinner: 'crescent',
+    });
+    await loading.present();
+  
+    try {
+      
+      const coords = await this.getCurrentLocation();
+
+      const weatherData = await this.weatherService
+        .getWeatherByCoordinates(coords.lat, coords.lon)
+        .toPromise();
+
+      this.weatherData = weatherData;
+
+      this.city = weatherData.name;
+
+      if (weatherData.name === 'Santiago', 'Ñuñoa', 'San Joaquín', 'Providencia') {
+        this.city = `Santiago`;
+      } else {
+        this.city = `${weatherData.name}`;
+      }
+  
+
+      await loading.dismiss();
+    } catch (error) {
+      console.error('Error al obtener los datos del clima:', error);
+      this.errorMessage = 'No se pudo obtener el clima.';
     }
   }
 
-  getWeather(lat: number, lon: number) {
-    this.loadingWeather = true;
-    this.errorMessage = '';
-
-    this.weatherService.getWeatherByCoordinates(lat, lon).subscribe(
-      (data) => {
-        this.weatherData = data;
-        this.loadingWeather = false; 
-      },
-      (error) => {
-        console.error('Error al obtener los datos del clima', error);
-        this.errorMessage = 'Error al obtener los datos del clima.';
-        this.loadingWeather = false; 
+  
+  getCurrentLocation(): Promise<{ lat: number; lon: number }> {
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            resolve({
+              lat: position.coords.latitude,
+              lon: position.coords.longitude,
+            });
+          },
+          (error) => {
+            reject('No se pudo obtener la ubicación.');
+          }
+        );
+      } else {
+        reject('La geolocalización no está soportada en este navegador.');
       }
-    );
+    });
   }
+
+  
+
 
   ngAfterViewInit() {
     // this.blinkButtons();

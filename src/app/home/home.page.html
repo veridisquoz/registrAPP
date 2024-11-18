@@ -4,7 +4,7 @@
     <div class="welcome-message">Bienvenido, {{ username }}!</div>
 
     <div *ngIf="weatherData" class="weather-info">
-      <h2>Clima en {{ weatherData.name }}</h2>
+      <h2>Clima en {{ city }}</h2>
       <p><strong>Temperatura:</strong> {{ weatherData.main.temp }} °C</p>
       <p><strong>Descripción:</strong> {{ weatherData.weather[0].description }}</p>
       <p><strong>Humedad:</strong> {{ weatherData.main.humidity }}%</p>
@@ -19,17 +19,17 @@
    </ion-input>
    <ion-button expand="full" (click)="getWeather()">Consultar Clima</ion-button> -->
 
-    <ion-button expand="full" class="menu-button" routerLink="/perfil">
+    <ion-button expand="full" (click)="navigateWithLoading('/perfil')">
       <ion-icon slot="start" name="person-outline"></ion-icon>
       Perfil
     </ion-button>
     
-    <ion-button expand="full" class="menu-button" routerLink="/asistencia">
+    <ion-button expand="full" (click)="navigateWithLoading('/asistencia')">
       <ion-icon slot="start" name="clipboard-outline"></ion-icon>
       Asistencia
     </ion-button>
     
-    <ion-button expand="full" class="menu-button" routerLink="/qr-scanner">
+    <ion-button expand="full" (click)="navigateWithLoading('/qr-scanner')">
       <ion-icon slot="start" name="qr-code-outline"></ion-icon>
       Escanear QR
     </ion-button>
