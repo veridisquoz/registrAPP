@@ -69,3 +69,19 @@ ion-button {
     color: #FFC700 !important; 
     background-color: #003366;
   }
+
+  .login-logo {
+    display: block;
+    margin: 0 auto; 
+    max-width: 300px; 
+    height: auto; 
+    
+  }
+
+  ion-header {
+    background-color: #012e55;
+    height: auto; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

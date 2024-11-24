@@ -1,20 +1,23 @@
 <ion-header>
-  <ion-title class="login-title">Bienvenido a Duoc UC</ion-title>
+      <img src="assets/duocuchl.jpeg" alt="Logo" class="login-logo" />
 </ion-header>
 
 <ion-content class="ion-padding">
   <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
     <ion-item>
+      <ion-icon name="person-outline" slot="start"></ion-icon>
       <ion-label position="floating">Usuario</ion-label>
       <ion-input type="text" required [(ngModel)]="username" name="username"></ion-input>
     </ion-item>
 
     <ion-item>
+      <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
       <ion-label position="floating">Contraseña</ion-label>
       <ion-input type="password" required [(ngModel)]="password" name="password"></ion-input>
     </ion-item>
 
     <ion-button expand="full" type="submit" [disabled]="!loginForm.form.valid" class="blinking-button">
+      <ion-icon slot="start" name="log-in-outline"></ion-icon>
       Ingresar
     </ion-button>
 
@@ -22,6 +25,7 @@
   </form>
 
   <ion-button expand="full" color="medium" (click)="goToResetPassword()" class="blinking-button">
+    <ion-icon slot="start" name="refresh-outline"></ion-icon>
     Recuperar Contraseña
   </ion-button>
 
