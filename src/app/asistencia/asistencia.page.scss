@@ -76,3 +76,19 @@ ion-content {
     --background: #003366;
     --color: #FFC700;
   }
+
+  .asistencia-logo {
+    display: block;
+    margin: 0 auto; 
+    max-width: 225px; 
+    height: auto; 
+    
+  }
+
+  ion-header {
+    background-color: #012e55;
+    height: auto; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

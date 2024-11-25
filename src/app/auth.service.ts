@@ -45,6 +45,9 @@ export class AuthService {
     return null;
   }
   
+  async getNombre(): Promise<string | null> {
+    return this.currentUser ? this.currentUser.nombre : null;
+  }
 
   async logout(): Promise<void> {
     this.currentUser = null;

@@ -11,7 +11,7 @@ import { LoadingController } from '@ionic/angular';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements AfterViewInit {
-  username: string = '';
+  nombre: string = '';
   city: string = 'Ubicación actual';  
   weatherData: any;
   errorMessage: string = ''; 
@@ -49,7 +49,7 @@ export class HomePage implements AfterViewInit {
       return;
     }
 
-    this.username = await this.authService.getUsername() || '';
+    this.nombre = await this.authService.getNombre() || '';
     this.presentWelcomeAlert();
     this.getWeatherWithLocation();
   }
@@ -118,7 +118,7 @@ export class HomePage implements AfterViewInit {
   async presentWelcomeAlert() {
     const alert = await this.alertController.create({
       header: 'Bienvenido',
-      message: `¡Bienvenido, ${this.username}!`,
+      message: `¡Bienvenido, ${this.nombre}!`,
       buttons: ['OK'],
     });
 
