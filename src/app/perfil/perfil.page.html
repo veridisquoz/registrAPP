@@ -1,3 +1,7 @@
+<ion-header>
+  <img src="assets/duocuchl.jpeg" alt="Logo" class="profile-logo" />
+</ion-header>
+
 <ion-content class="ion-padding">
   <div class="perfil-container">
 
@@ -8,11 +12,26 @@
     </div>
 
     <div class="user-info">
-      <h2>{{ user?.username }}</h2>
-      <p><strong>Nombre:</strong> {{ user?.nombre }}</p>
-      <p><strong>ID del Estudiante:</strong> {{ user?.idEstudiante }}</p>
-      <p><strong>Carrera:</strong> {{ user?.carrera }}</p>
-      <p><strong>Email:</strong> {{ user?.email }}</p>
+      <h2>
+        <ion-icon name="person-outline"></ion-icon>
+        {{ user?.username }}
+      </h2>
+      <p>
+        <ion-icon name="card-outline"></ion-icon>
+        <strong>Nombre:</strong> {{ user?.nombre }}
+      </p>
+      <p>
+        <ion-icon name="id-card-outline"></ion-icon>
+        <strong>ID del Estudiante:</strong> {{ user?.idEstudiante }}
+      </p>
+      <p>
+        <ion-icon name="school-outline"></ion-icon>
+        <strong>Carrera:</strong> {{ user?.carrera }}
+      </p>
+      <p>
+        <ion-icon name="mail-outline"></ion-icon>
+        <strong>Email:</strong> {{ user?.email }}
+      </p>
     </div>
 
     <ion-button expand="full" class="volver-button" routerLink="/home">

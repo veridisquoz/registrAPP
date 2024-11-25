@@ -55,11 +55,19 @@ export class LoginPage implements AfterViewInit {
     if (isAuthenticated) {
       this.router.navigate(['/home']);  
     }
+    window.addEventListener('clear-login-form', this.clearFields.bind(this));
   }
+
+  ngOnDestroy() {
+    
+    window.removeEventListener('clear-login-form', this.clearFields.bind(this));
+  }
+
+  
 
   ngAfterViewInit() {
 
-    // this.blinkLogo();
+    
   }
 
   blinkLogo() {
@@ -91,7 +99,22 @@ export class LoginPage implements AfterViewInit {
     this.router.navigate(['/login']); 
   }
 
-  goToResetPassword() {
-    this.router.navigate(['/restablecimiento']);
+  
+
+  async goToResetPassword() {
+    const loading = await this.loadingController.create({
+      message: 'Cargando...',
+      spinner: 'crescent',
+      duration: 1500
+    });
+  
+    await loading.present();
+  
+    this.router.navigate(['/restablecimiento']).then(() => {
+      loading.dismiss(); 
+    }).catch(() => {
+      loading.dismiss();
+    });
   }
 }
+

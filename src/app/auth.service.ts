@@ -14,7 +14,10 @@ export class AuthService {
   async login(username: string, password: string): Promise<boolean> {
     try {
       const response = await this.http.post<any>(`${this.apiUrl}/login`, { username, password }).toPromise();
-      this.currentUser = response.user;
+      this.currentUser = {
+        ...response.user,
+        nombre: this.capitalize(response.user.nombre),
+      };
       this.isLoggedIn = true;
       return true;
     } catch (error) {
@@ -33,11 +36,26 @@ export class AuthService {
   }
 
   getUserProfile(): any {
-    return this.currentUser;
+    if (this.currentUser) {
+      return {
+        ...this.currentUser,
+        nombre: this.capitalize(this.currentUser.nombre),
+      };
+    }
+    return null;
   }
+  
 
   async logout(): Promise<void> {
     this.currentUser = null;
     this.isLoggedIn = false;
+  }
+
+  private capitalize(text: string): string {
+    return text
+      .toLowerCase()
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
   }
 }

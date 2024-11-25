@@ -112,7 +112,7 @@ export class HomePage implements AfterViewInit {
 
 
   ngAfterViewInit() {
-    // this.blinkButtons();
+    
   }
 
   async presentWelcomeAlert() {
@@ -143,9 +143,38 @@ export class HomePage implements AfterViewInit {
   }
 
   async logout() {
-    await this.authService.logout(); 
-    this.router.navigate(['/login']).then(() => {
-      window.location.reload();
+    const alert = await this.alertController.create({
+      
+      message: '¿Estás seguro de que deseas cerrar sesión?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'secondary',
+        },
+        {
+          text: 'Cerrar sesión',
+          handler: async () => {
+            const loading = await this.loadingController.create({
+              message: 'Cerrando sesión...',
+              spinner: 'crescent',
+              duration: 2000,
+            });
+  
+            await loading.present();
+  
+            try {
+              await this.authService.logout(); 
+              await this.router.navigate(['/login']);
+              window.dispatchEvent(new Event('clear-login-form'));
+            } finally {
+              await loading.dismiss();
+            }
+          },
+        },
+      ],
     });
+  
+    await alert.present();
   }
 }

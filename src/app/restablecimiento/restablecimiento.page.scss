@@ -57,3 +57,19 @@ ion-button {
   margin: 20px auto;
   display: block;
 }
+
+ion-header {
+  background-color: #012e55;
+  height: auto; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rest-logo {
+  display: block;
+  margin: 0 auto; 
+  max-width: 225px; 
+  height: auto; 
+  
+}

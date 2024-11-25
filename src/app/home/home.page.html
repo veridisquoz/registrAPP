@@ -1,3 +1,7 @@
+<ion-header>
+  <img src="assets/duocuchl.jpeg" alt="Logo" class="home-logo" />
+</ion-header>
+
 <ion-content class="ion-padding">
   <div class="center-content">
     
@@ -11,37 +15,27 @@
       <p><strong>Viento:</strong> {{ weatherData.wind.speed }} m/s</p>
     </div>
 
-   <!-- <ion-input 
-   [(ngModel)]="city" 
-   placeholder="Ingrese ciudad" 
-   clearInput
-   class="city-input">
-   </ion-input>
-   <ion-button expand="full" (click)="getWeather()">Consultar Clima</ion-button> -->
+    <div class="button-grid">
+      <ion-button class="grid-button" (click)="navigateWithLoading('/perfil')">
+        <ion-icon slot="start" name="person-outline"></ion-icon>
+        Perfil
+      </ion-button>
+      
+      <ion-button class="grid-button" (click)="navigateWithLoading('/asistencia')">
+        <ion-icon slot="start" name="clipboard-outline"></ion-icon>
+        Asistencia
+      </ion-button>
+      
+      <ion-button class="grid-button" (click)="navigateWithLoading('/qr-scanner')">
+        <ion-icon slot="start" name="qr-code-outline"></ion-icon>
+        Escanear QR
+      </ion-button>
+      
+      <ion-button class="grid-button" color="danger" (click)="logout()">
+        <ion-icon slot="start" name="log-out-outline"></ion-icon>
+        Salir
+      </ion-button>
+    </div>
 
-    <ion-button expand="full" (click)="navigateWithLoading('/perfil')">
-      <ion-icon slot="start" name="person-outline"></ion-icon>
-      Perfil
-    </ion-button>
-    
-    <ion-button expand="full" (click)="navigateWithLoading('/asistencia')">
-      <ion-icon slot="start" name="clipboard-outline"></ion-icon>
-      Asistencia
-    </ion-button>
-    
-    <ion-button expand="full" (click)="navigateWithLoading('/qr-scanner')">
-      <ion-icon slot="start" name="qr-code-outline"></ion-icon>
-      Escanear QR
-    </ion-button>
-    
-    <!-- <ion-button expand="full" class="menu-button">
-      <ion-icon slot="start" name="settings-outline"></ion-icon>
-      Configuración
-    </ion-button> -->
-    
-    <ion-button expand="full" color="danger" class="menu-button" (click)="logout()">
-      <ion-icon slot="start" name="log-out-outline"></ion-icon>
-      Salir
-    </ion-button>
   </div>
 </ion-content>

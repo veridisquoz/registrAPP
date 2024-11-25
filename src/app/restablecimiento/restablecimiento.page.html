@@ -1,22 +1,25 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Recuperación de contraseña</ion-title>
-  </ion-toolbar>
+  <img src="assets/duocuchl.jpeg" alt="Logo" class="rest-logo" />
 </ion-header>
 
 <ion-content class="ion-padding">
   <div class="center-content">
     <form (ngSubmit)="onResetPassword()" #resetPasswordForm="ngForm">
       <ion-item>
+        <ion-icon name="person-outline" slot="start"></ion-icon>
         <ion-label position="floating">Ingrese nombre de usuario válido</ion-label>
         <ion-input type="text" required [(ngModel)]="username" name="username"></ion-input>
       </ion-item>
 
       <ion-button expand="full" type="submit" [disabled]="!resetPasswordForm.form.valid">
+        <ion-icon slot="start" name="mail-open-outline"></ion-icon>
         Enviar
       </ion-button>
 
-      <ion-button expand="full" color="medium" (click)="goToLogin()">Regresar</ion-button>
+      <ion-button expand="full" color="medium" (click)="goToLogin()">
+        <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+        Regresar</ion-button>
+      
     </form>
 
     <img src="assets/LogoDU.jpg" alt="Logo Institucional" class="institutional-logo" #logo>

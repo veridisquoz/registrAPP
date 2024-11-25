@@ -22,21 +22,7 @@ export class RestablecimientoPage implements AfterViewInit {
   ) {}
 
   ngAfterViewInit() {
-    this.blinkLogo();  // Llamada para animar el logo
-  }
-
-  blinkLogo() {
-    const animation = this.animationCtrl
-      .create()
-      .addElement(this.logo.nativeElement)
-      .duration(2000)  
-      .iterations(Infinity)  
-      .keyframes([
-        { offset: 0, opacity: '1' },     
-        { offset: 0.5, opacity: '0.3' }, 
-        { offset: 1, opacity: '1' }      
-      ]);
-    animation.play();
+    
   }
 
   async onResetPassword() {
