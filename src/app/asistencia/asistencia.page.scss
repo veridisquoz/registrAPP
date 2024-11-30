@@ -4,16 +4,6 @@ ion-content {
     padding: 20px;        
   }
   
-  .welcome-message,
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
   ion-item {
     width: 100%;
     max-width: 400px;
@@ -29,26 +19,6 @@ ion-content {
   
   ion-label {
     color: #FFC700 !important;  
-  }
-  
-  .menu-button,
-  ion-button {
-    --border-radius: 25px;     
-    --background: #003366;      
-    --color: #FFC700;           
-    margin-top: 10px;           
-    padding: 12px;              
-    font-size: 16px;            
-    font-weight: bold;         
-    transition: transform 0.2s;
-  
-    &:hover {
-      transform: scale(1.05);   
-    }
-  
-    &:active {
-      transform: scale(0.95);  
-    }
   }
   
   
@@ -70,11 +40,18 @@ ion-content {
   }
   
   
-  .back-button {
+  .volver-button {
     margin-top: 20px;
     border-radius: 25px !important;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
     --background: #003366;
     --color: #FFC700;
+  }
+
+  ion-button.volver-button::part(native) {
+    border-radius: 25px !important;
   }
 
   .asistencia-logo {
@@ -92,3 +69,30 @@ ion-content {
     justify-content: center;
     align-items: center;
   }
+
+  ion-grid {
+    
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  ion-row {
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 14px;
+  }
+  
+  .header-row {
+   background-color: #003366;
+   color: #FFC700;
+   margin: 5px 0;
+   border-radius: 4px;
+   padding: 8px; 
+  }
+  
+  ion-col {
+    text-align: center;
+    padding: 8px; 
+  }
+  
