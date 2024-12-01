@@ -59,6 +59,12 @@ export class QrScannerPage implements OnDestroy {
       this.showAlert('Error', 'Formato de QR inválido');
       return;
     }
+
+    const confirmed = await this.showConfirmation('Confirmar asistencia', `¿Registrar asistencia para ${subject} en ${room} el ${date}?`);
+
+    if (!confirmed) {
+    return;
+  }
  
     const attendanceData: IAttendance = {
       username,
@@ -88,6 +94,27 @@ export class QrScannerPage implements OnDestroy {
       buttons: ['OK'],
     });
     await alert.present();
+  }
+  async showConfirmation(header: string, message: string): Promise<boolean> {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => false,
+        },
+        {
+          text: 'Confirmar',
+          handler: () => true,
+        },
+      ],
+    });
+  
+    await alert.present();
+    const { role } = await alert.onDidDismiss();
+    return role !== 'cancel';
   }
 
   ngOnDestroy() {
