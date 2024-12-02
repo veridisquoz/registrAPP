@@ -13,8 +13,8 @@ import { PerfilPage } from './perfil.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    PerfilPageRoutingModule
+    PerfilPageRoutingModule,
   ],
-  declarations: [PerfilPage]
+  declarations: [PerfilPage],
 })
 export class PerfilPageModule {}

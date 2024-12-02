@@ -1,19 +1,18 @@
 [
-    {
-      "username": "lui.illanes",
-      "nombre": "Luis Illanes Lagos",
-      "idEstudiante": "19846866-5",
-      "carrera": "Analista Programador",
-      "email": "lui.illanes@duocuc.cl",
-      "password": "contrasena123"
-    },
-    {
-      "username": "her.quiroz",
-      "nombre": "Hernán Quiroz Olivares",
-      "idEstudiante": "17086429-8",
-      "carrera": "Analista Programador",
-      "email": "her.quiroz@duocuc.cl",
-      "password": "contrasena123"
-    }
-  ]
-  
+  {
+    "username": "lui.illanes",
+    "nombre": "Luis Illanes Lagos",
+    "idEstudiante": "19846866-5",
+    "carrera": "Analista Programador",
+    "email": "lui.illanes@duocuc.cl",
+    "password": "tz9gpfpr"
+  },
+  {
+    "username": "her.quiroz",
+    "nombre": "Hernán Quiroz Olivares",
+    "idEstudiante": "17086429-8",
+    "carrera": "Analista Programador",
+    "email": "her.quiroz@duocuc.cl",
+    "password": "contrasena123"
+  }
+]
